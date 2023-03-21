@@ -15,7 +15,8 @@ public class ProductManagerTest {
     Product product3 = new Smartphone(3, "OPPO Reno 5", 50_000, "Китай");
     Product product4 = new Smartphone(4, "Honor 8", 10_000, "Китай");
     Product product5 = new Product(5, "Влажные салфетки",200);
-    Product product6 = new Product(6, "Ботинки мужские", 3000);
+    Product product6 = new Product(6, "Ботинки", 3000);
+    Product product7 = new Product(7, "Ботинки", 2500);
 
     @BeforeEach
     public void setup() {
@@ -25,6 +26,7 @@ public class ProductManagerTest {
         manage.add(product4);
         manage.add(product5);
         manage.add(product6);
+        manage.add(product7);
     }
 
     @Test
@@ -84,6 +86,14 @@ public class ProductManagerTest {
 
         Product[] expected = {product1, product2, product3, product4, product5, product6};
         Product[] actual = repository.findAll();
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void testFindFewItems() {
+
+        Product[] expected = {product6, product7};
+        Product[] actual = manage.searchBy("Ботинки");
 
         Assertions.assertArrayEquals(expected, actual);
     }
