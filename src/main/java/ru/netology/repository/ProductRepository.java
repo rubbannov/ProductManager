@@ -19,7 +19,7 @@ public class ProductRepository {
     }
 
     public void removeById(int id) {
-        if (id != items.length) {
+        if (id > items.length) {
             return;
         }
         Product[] tmp = new Product[items.length - 1];
