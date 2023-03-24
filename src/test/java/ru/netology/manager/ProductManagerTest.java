@@ -7,6 +7,8 @@ import ru.netology.domain.Product;
 import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class ProductManagerTest {
     ProductRepository repository = new ProductRepository();
     ProductManager manage = new ProductManager(repository);
@@ -72,7 +74,7 @@ public class ProductManagerTest {
 
     }
     @Test
-    public void testRemoveById() {
+    public void testRemoveById() { //Успешное удаление элемента
         repository.removeById(6);
 
         Product[] expected = {product1, product2, product3, product4, product5, product7};
@@ -81,19 +83,25 @@ public class ProductManagerTest {
         Assertions.assertArrayEquals(expected, actual);
     }
     @Test
-    public void testRemoveByDoesNotExistId() {
-        repository.removeById(77);
+    public void testRemoveByDoesNotExistId() { //Тест переделан под исключение
 
-        Product[] expected = {product1, product2, product3, product4, product5, product6, product7};
-        Product[] actual = repository.findAll();
-
-        Assertions.assertArrayEquals(expected, actual);
+        assertThrows(NotFoundException.class, () -> {
+            repository.removeById(777);
+        });
     }
     @Test
     public void testFindFewItems() {
 
         Product[] expected = {product6, product7};
         Product[] actual = manage.searchBy("Ботинки");
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+    @Test
+    public void testFindByID() {
+
+        Product[] expected = {product3};
+        Product[] actual = repository.findById(3);
 
         Assertions.assertArrayEquals(expected, actual);
     }
